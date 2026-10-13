@@ -1,0 +1,67 @@
+
+spring:
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/ev' #?currentSchema=nea'
+    username: dinevadmin
+    password: ${DB_PASSWORD:dinevvirtual}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 10000
+      minimum-idle: 20
+      maximum-pool-size: 150
+      idle-timeout: 600000    # 10 мин
+      max-lifetime: 1700000   # < Postgres 30m default
+      auto-commit: true      # IMPORTANT
+      leak-detection-threshold: 60000 # 1 minute to avoid false positives
+  #      connection-timeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+  #      minimum-idle: 3 #minimum number of idle connections maintained by HikariCP in a connection pool
+  #      maximum-pool-size: 10 #maximum pool size
+  #      idle-timeout: 15000 #maximum idle time for connection
+  #      max-lifetime: 1000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+  #      auto-commit: true #default auto-commit behavior.
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create #none, validate, update, create, create-drop
+    properties:
+      jakarta.persistence.create-database-schemas: true
+      hibernate:
+        jakarta.cache.uri: classpath:ehcache.xml
+        default_schema: calc
+        show_sql: true
+        generateve_statistics: true
+        session.events.log.LOG_QUERIES_SLOWER_THAN_MS: 500
+        order_insert: true
+        order_updates: true
+        default_batch_fetch_size: 50
+        query:
+          hql:
+            json_functions_enabled: true
+        jdbc:
+          batch_size: 50
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+      #        dialect: org.hibernate.dialect.PostgreSQL10Dialect #net.optionfactory.hj.postgres.PostgreSQL95DialectWithJsonb
+      org.hibernate.envers:
+        default_schema: aud
+    #        audit_table_suffix: _aud
+    show-sql: true
+    open-in-view: false
+    defer-datasource-initialization: true #2nd step to run db/schema.sql, db/data/*.sql scripts (to enable set the create-database-schemas to false)
+  sql:
+    init:
+      encoding: UTF-8
+      mode: always
+#      schema-locations:
+      continue-on-error: false
+#      data-locations:
+#  liquibase:
+#    # enable only when the schema and tables definitions plus initial data are almost clear
+#    # to enable you should disable defer-datasource-initialization and set ddl-auto: validate
+#    enabled: false
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
+#    default-schema: eas
+#    liquibase-schema: eas

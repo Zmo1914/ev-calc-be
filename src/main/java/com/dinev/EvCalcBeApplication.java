@@ -1,4 +1,4 @@
-package com.dinev.evcalcbe;
+package com.dinev;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

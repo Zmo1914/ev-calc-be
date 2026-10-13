@@ -1,19 +1,67 @@
+server:
+  port: ${SERVER_PORT:8084}
+  compression.enabled: true
+
+springdoc:
+  enable-hateoas: false
+  enable-data-rest: false
+  api-docs:
+    version: openapi_3_1
+    path: /api-docs
+  swagger-ui:
+    display-request-duration: true
+    #    groups-order: DESC
+    operationsSorter: method
+    tagsSorter: alpha
+    use-root-path: true
+    path: /swagger-ui
+#    disable-swagger-default-url: true
+#  show-actuator: true
+#  group-configs:
+#    - group: stores
+#      paths-to-match: /store/**
+#  cache:
+#    disabled: true
+
+#logging.level:
+#  org.springframework:
+#    web: INFO
+#    security: WARN
+#    boot.autoconfigure: INFO
+#  bg.bulsi.nea: INFO
+logging.level:
+  root: INFO
+  org.springframework:
+    web: INFO
+    security: INFO
+  org.hibernate: DEBUG
+  org.hibernate.stat: DEBUG
+  bg.bulsi.nea: DEBUG
+
 spring:
-  application:
-    name: ev-calc-be
-  datasource:
-    url: jdbc:h2:file:./data/evsplitter
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
-  h2:
-    console:
-      enabled: true
+  threads.virtual.enabled: true
+  data.rest.max-page-size: 5000
+  web:
+    resources:
+      # Disables automatic mapping of static resources from locations like /static, /public, /resources or /META-INF/resources
+      add-mappings: false
+  jackson.default-property-inclusion: non_null
   servlet:
     multipart:
-      max-file-size: 20MB
-      max-request-size: 60MB
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  #  mail:
+  #    host: mail.bul-si.bg
+  #    port: 465
+  #    protocol: smtp
+  #    username: crc-test@bul-si.bg
+  #    password: 1y2t3r4e5w6q
+  #    properties:
+  #      mail.smtp.auth: true
+  #      mail.smtp.ssl.enable: true
+  #      mail.smtp.ssl.trust: '*'
+  #      mail.smtp.sendpartial: true
+  #      mail.smtp.starttls.required: true
+  #      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+  #      mail.debug: true
